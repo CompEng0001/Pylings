@@ -1,6 +1,5 @@
 from sys import exit
 from threading import Thread
-
 from pylings.exercises import ExerciseManager
 from pylings.utils import PylingsUtils
 from pylings.watcher import Watcher

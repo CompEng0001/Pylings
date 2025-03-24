@@ -143,7 +143,7 @@ class ExerciseManager:
         logging.debug(f"ExerciseManager.get_next_pending_exercise: Entered")
         for ex_data in self.exercises.values():
             if ex_data["status"] == "PENDING":
-                logging.debug(f'ExerciseManager.get_next_pending_exercise: {ex_data["path"]}')
+                logging.debug('ExerciseManager.get_next_pending_exercise: {ex_data["path"]}')
                 return ex_data["path"]
         return None
 
