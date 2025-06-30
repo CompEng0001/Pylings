@@ -1,0 +1,90 @@
+[default]
+GREEN = "bold green"
+RED = "bold red"
+ORANGE = "bold orange"
+LIGHT_BLUE = "bold lightblue"
+RESET = "/"
+UNDERLINE = "underline"
+BACKGROUND = "#1e1e2e"
+
+[dark]
+GREEN = "green"
+RED = "red"
+ORANGE = "yellow"
+LIGHT_BLUE = "cyan"
+RESET = "/"
+UNDERLINE = "underline"
+BACKGROUND = "#121212"
+
+[high_contrast]
+GREEN = "bold white on green"
+RED = "bold white on red"
+ORANGE = "bold white on yellow"
+LIGHT_BLUE = "bold black on cyan"
+RESET = "/"
+UNDERLINE = "underline"
+BACKGROUND = "#000000"
+
+[catppuccin_mocha]
+GREEN = "#a6e3a1"
+RED = "#f38ba8"
+ORANGE = "#fab387"
+LIGHT_BLUE = "#89dceb"
+RESET = "/"
+UNDERLINE = "underline"
+BACKGROUND = "#1e1e2e"
+
+[catppuccin_macchiato]
+GREEN = "#a6da95"
+RED = "#ed8796"
+ORANGE = "#f5a97f"
+LIGHT_BLUE = "#8aadf4"
+RESET = "/"
+UNDERLINE = "underline"
+BACKGROUND = "#24273a"
+
+[gruvbox_dark]
+GREEN = "#b8bb26"
+RED = "#fb4934"
+ORANGE = "#fe8019"
+LIGHT_BLUE = "#83a598"
+RESET = "/"
+UNDERLINE = "underline"
+BACKGROUND = "#282828"
+
+[onedark]
+GREEN = "#98c379"
+RED = "#e06c75"
+ORANGE = "#d19a66"
+LIGHT_BLUE = "#61afef"
+RESET = "/"
+UNDERLINE = "underline"
+BACKGROUND = "#282c34"
+
+[solarized_dark]
+GREEN = "#859900"
+RED = "#dc322f"
+ORANGE = "#cb4b16"
+LIGHT_BLUE = "#268bd2"
+RESET = "/"
+UNDERLINE = "underline"
+BACKGROUND = "#002b36"
+
+[nord]
+GREEN = "#a3be8c"
+RED = "#bf616a"
+ORANGE = "#d08770"
+LIGHT_BLUE = "#88c0d0"
+RESET = "/"
+UNDERLINE = "underline"
+BACKGROUND = "#2e3440"
+
+[tender]
+GREEN = "#c9d05c"
+RED = "#f43753"
+ORANGE = "#dc9656"
+LIGHT_BLUE = "#b3deef"
+RESET = "/"
+UNDERLINE = "underline"
+BACKGROUND = "#282828"
+

@@ -10,6 +10,7 @@ import logging
 from pathlib import Path
 import shutil
 import subprocess
+import textwrap
 import toml
 
 from pylings.constants import IGNORED_DIRS, IGNORED_FILES
@@ -55,8 +56,15 @@ def init_workspace(path: str = None, force: bool = False):
 
     version = PylingsUtils.get_installed_version()
     (target_dir / ".pylings.toml").write_text(
-        f'[workspace]\nversion = "{version}"\nfirsttime=true\n'
-        'current_exercise = "00_intro/intro1.py"'
+        textwrap.dedent(f'''\
+            [workspace]
+            version = "{version}"
+            firsttime = true
+            current_exercise = "00_intro/intro1.py"
+
+            [theme]
+            name = "default"
+        ''')
     )
     initialise_git(target_dir)
     print("Pylings initialised at:", target_dir)

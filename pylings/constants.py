@@ -1,6 +1,7 @@
 """constants.py: Shared constants for pylings project"""
 
 from pathlib import Path
+import toml
 
 # FILE PATHS
 BASE_DIR = Path.cwd()
@@ -13,13 +14,30 @@ DEBUG_PATH = BASE_DIR / ".pylings_debug.log"
 IGNORED_DIRS = {"__pycache__", ".git"}
 IGNORED_FILES = {".DS_Store", "Thumbs.db"}
 
-# MARKUP STYLES FOR TEXTUAL
-GREEN = "[bold green]"
-LIGHT_BLUE = "[bold lightblue]"
-ORANGE = "[bold orange]"
-RED = "[bold red]"
-RESET_COLOR = "[/]"
-UNDERLINE = "[underline]"
+# THEME CONFIGURATION
+theme_name = "default"
+if PYLINGS_TOML.exists():
+    try:
+        config = toml.load(PYLINGS_TOML)
+        theme_name = config.get("theme", {}).get("name", "default")
+    except Exception:
+        pass
+
+# Load theme definitions
+theme_path = Path(__file__).parent / "config" / "themes.toml"
+themes = toml.load(theme_path)
+selected = themes.get(theme_name, themes["default"])
+
+# TEXTUAL STYLE STRINGS
+GREEN = f"[{selected['GREEN']}]"
+RED = f"[{selected['RED']}]"
+ORANGE = f"[{selected['ORANGE']}]"
+LIGHT_BLUE = f"[{selected['LIGHT_BLUE']}]"
+RESET_COLOR = f"[/{selected['RESET']}]" if selected["RESET"] != "/" else "[/]"
+UNDERLINE = f"[{selected['UNDERLINE']}]"
+
+# BACKGROUND color (used in .styles not markup)
+BACKGROUND_COLOR = selected.get("BACKGROUND", "#1e1e2e")
 
 # FORMATTING CONTROLS
 CLEAR_SCREEN = "\033[2J\033[H"

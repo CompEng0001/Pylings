@@ -1,8 +1,8 @@
 """Textual-based UI for Pylings.
 
-Provides a terminal-based interactive application for navigating, viewing, 
-and interacting with Python exercises in the Pylings project. This UI is 
-powered by the Textual framework and integrates with the ExerciseManager 
+Provides a terminal-based interactive application for navigating, viewing,
+and interacting with Python exercises in the Pylings project. This UI is
+powered by the Textual framework and integrates with the ExerciseManager
 for backend state and logic.
 """
 import logging
@@ -14,7 +14,8 @@ from textual.widgets import  ListView, ListItem, Static
 
 from pylings.constants import (DONE,DONE_MESSAGE, EXERCISES_DIR,EXERCISE_DONE,
                                EXERCISE_ERROR, EXERCISE_OUTPUT, LIST_VIEW,
-                               LIST_VIEW_NEXT, MAIN_VIEW, MAIN_VIEW_NEXT, PENDING
+                               LIST_VIEW_NEXT, MAIN_VIEW, MAIN_VIEW_NEXT, PENDING,
+                               BACKGROUND_COLOR
 )
 from pylings.exercises import ExerciseManager
 from pylings.utils import PylingsUtils
@@ -25,7 +26,7 @@ class PylingsUI(App):
     """Textual-based UI for Pylings.
 
     Manages the interactive terminal interface, including layout, navigation,
-    exercise display, sidebar list, and user input handling. It integrates with 
+    exercise display, sidebar list, and user input handling. It integrates with
     an ExerciseManager to coordinate updates and actions.
     """
 
@@ -65,6 +66,7 @@ class PylingsUI(App):
     def on_mount(self):
         """Update UI with initial exercise details."""
         log.debug("PylingsUI.on_mount: Entered")
+        self.screen.styles.background = BACKGROUND_COLOR
         self.update_exercise_content()
         sidebar = self.query_one("#sidebar", Vertical)
         main_content = self.query_one("#main", Vertical)
@@ -90,7 +92,7 @@ class PylingsUI(App):
         log.debug("PylingsUI.referesh_exercise_output: Entered")
         if not self.current_exercise:
             log.debug(
-                "PylingsUI.referesh_exercise_output: current_exercise is None (%s)", 
+                "PylingsUI.referesh_exercise_output: current_exercise is None (%s)",
                 self.current_exercise
             )
             return
@@ -174,7 +176,7 @@ class PylingsUI(App):
         )
 
     def update_progress_bar(self):
-        """Generate a Rustlings-style text progress bar inside Static.""" 
+        """Generate a Rustlings-style text progress bar inside Static."""
         log.debug("PylingsUI.update_progress_bar: Entered")
         progress_bar_widget = self.query_one("#progress-bar", Static)
 
@@ -202,7 +204,7 @@ class PylingsUI(App):
         check_progress_widget.update("Checking all exercises")
         if exercise_name:
             log.debug(
-                "PylingsUI.update_update_progress.exercise_name: %s %d/%d", 
+                "PylingsUI.update_update_progress.exercise_name: %s %d/%d",
                 exercise_name, completed, total - 1
             )
             check_progress_widget.update(
