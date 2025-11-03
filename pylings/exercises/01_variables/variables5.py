@@ -12,8 +12,8 @@ In DNA each letter is defined as a `base`, we can interchange `base` with `index
 
 dna_sequence = "AGCTTAGGCTA"
 
-# TODO: Extract the first base of dna_sequence
-first_base = __ 
+# EXAMPLE: Extract the first base of dna_sequence
+first_base = dna_sequence[0]
 
 # TODO: Extract the last base of dna_sequence
 last_base = __  
