@@ -174,29 +174,28 @@ class ExerciseManager:
     def update_exercise_output(self):
         """Re-runs the current exercise and updates its status and progress tracking."""
         log.debug("ExerciseManager.update_exercise_output")
-        if self.arg_exercise:
-            self.current_exercise = self.arg_exercise
-            self.arg_exercise = None
+        try:
+            if self.arg_exercise:
+                self.current_exercise = self.arg_exercise
+                self.arg_exercise = None
 
-        if not self.current_exercise:
-            return
+            if not self.current_exercise:
+                return
 
-        result = self.run_exercise(self.current_exercise)
-        name = self.current_exercise.name
-        new_status = self._update_exercise_status(name, result)
-        self.current_exercise_state = new_status
+            result = self.run_exercise(self.current_exercise)
+            name = self.current_exercise.name
+            new_status = self._update_exercise_status(name, result)
+            self.current_exercise_state = new_status
 
-        #if prev_status != "DONE" and new_status == "DONE":
-        #    self.completed_count += 1
-        #elif prev_status == "DONE" and new_status != "DONE":
-        #    self.completed_count -= 1
-        self.completed_count = sum(1 for ex in self.exercises.values() if ex["status"] == "DONE")
+            self.completed_count = sum(1 for ex in self.exercises.values() if ex["status"] == "DONE")
 
-        #self.completed_count = max(0, min(self.completed_count, len(self.exercises)))
-        log.debug(f"ExerciseManager.update_exercise_output.self.completed_count: ${self.completed_count}")
-        if self.completed_count == len(self.exercises) and not self.completed_flag:
-            print(FINISHED)
-            self.completed_flag = True
+            log.debug(f"ExerciseManager.update_exercise_output.self.completed_count: ${self.completed_count}")
+            if self.completed_count == len(self.exercises) and not self.completed_flag:
+                print(FINISHED)
+                self.completed_flag = True
+        except Exception as e:
+            log.exception("update_exercise_output crashed: %s", e)
+
 
     def check_all_exercises(self, progress_callback=None):
         """Checks all exercises for completion status.
@@ -237,7 +236,8 @@ class ExerciseManager:
             self.current_exercise_state = self.exercises[self.current_exercise.name]["status"]
             self.config_manager.set_lasttime_exercise(new_exercise)
             if self.watcher:
-                self.watcher.restart(str(self.current_exercise))
+                self.watcher.restart(str(self.current_exercise.parent))
+                log.debug(f"ExerciseManager.next_exercises.self.current_exercise.parent: ${self.current_exercise.parent}")
         else:
             print("All exercises completed!")
 

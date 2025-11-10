@@ -9,8 +9,10 @@ Supports:
 - Displaying version information
 - Running the interactive TUI application
 """
+import logging
 import sys
 import traceback
+import threading
 from pylings.debug import setup_logging
 from pylings.exercises import ExerciseManager
 from pylings.init import init_workspace, update_workspace
@@ -25,8 +27,18 @@ def main():
     workspace setup, and starts the TUI if appropriate. Also sets up
     file watchers and logging configuration.
     """
+
+
     args = PylingsUtils.parse_args()
     setup_logging(args.debug)
+
+
+    def _thread_excepthook(args: threading.ExceptHookArgs):
+        logging.error(
+            "Unhandled exception in thread %s", getattr(args.thread, "name", "<unnamed>"),
+            exc_info=(args.exc_type, args.exc_value, args.exc_traceback)
+        )
+    threading.excepthook = _thread_excepthook
 
     if args.command == "init":
         init_workspace(args.path, force=args.force)
