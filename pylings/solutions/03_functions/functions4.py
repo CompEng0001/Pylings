@@ -5,7 +5,7 @@ This exercise builds on the previous one by exploring default parameter values a
 
 # TODO: Define a function that accepts an optional string `name` (default "Guest")
 # It should return "Welcome, NAME!"
-def welcome(name: ___ = ___) -> str:
+def welcome(name: str = "Guest") -> str:
     return f"Welcome, {name}!"
 
 # === TESTS ===

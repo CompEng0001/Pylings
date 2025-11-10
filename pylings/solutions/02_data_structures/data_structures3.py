@@ -25,7 +25,7 @@ books = {
 assert books == {
     "Clean Code": {"author": "Robert C. Martin", "year": 2008, "price": 30},
     "The Pragmatic Programmer": {"author": "Andrew Hunt and David Thomas", "year": 1999, "price": 25},
-    "Introduction to Algorithms": {"author": "CLRS", "year": 2009, "price": 100},
+    "Introduction to Algorithms": {"author": "Cormen, Leiserson, Rivest, and Stein", "year": 2009, "price": 100},
     "Design Patterns": {"author": "Erich Gamma et al.", "year": 1994, "price": 50}
 }, f"Expected correct dictionary, but got {books}"
 print(f"Books: {books}")
