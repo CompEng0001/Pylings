@@ -38,8 +38,8 @@ DONE_MESSAGE = (
     "for the next exercise 🐍\n"
 )
 EXERCISE_DONE = f"{GREEN}Exercise done ✔{RESET_COLOR}"
-EXERCISE_ERROR = lambda error: f"{RED}{error}{RESET_COLOR}"
-EXERCISE_OUTPUT = lambda output: f"{UNDERLINE}Output{RESET_COLOR}\n{output}"
+#EXERCISE_ERROR = lambda error: f"{RED}{error}{RESET_COLOR}"
+EXERCISE_OUTPUT = f"{UNDERLINE}Output{RESET_COLOR}"
 HINT_TITLE = f"{GREEN}{UNDERLINE}Hint:{RESET_COLOR}{RESET_COLOR}"
 NO_HINT_MESSAGE = f"{RED}No hint found for the current exercise.{RESET_COLOR}"
 NO_EXERCISE_MESSAGE = f"{RED}No current exercise theme_config.{RESET_COLOR}"

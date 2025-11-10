@@ -79,7 +79,7 @@ def update_workspace(path: str = None):
     """Update an existing Pylings workspace with the latest exercises and solutions.
 
     Synchronizes content with the package source and sets the current version in `.pylings.toml`.
-
+ 
     Args:
         path (str, optional): Target workspace path. Defaults to current directory.
     """
@@ -179,7 +179,9 @@ def update_folder(root_dir, target_dir, folder_name):
                 print(f"\t{symbol} {f}")
 
     if notify_files:
-        print("\nThe following exercise files been modified by the user and were NOT overwritten:\n")
+        print("\nThe following exercise files have been modified by the user " +
+               "and were NOT overwritten:\n"
+        )
 
         for file in notify_files:
             print(f"\t{file}")

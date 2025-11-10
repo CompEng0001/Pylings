@@ -13,9 +13,9 @@ from textual.events import Key
 from textual.widgets import  ListView, ListItem, Static
 
 from pylings.constants import (DONE,DONE_MESSAGE, EXERCISES_DIR,EXERCISE_DONE,
-                               EXERCISE_ERROR, EXERCISE_OUTPUT, LIST_VIEW,
-                               LIST_VIEW_NEXT, MAIN_VIEW, MAIN_VIEW_NEXT, PENDING,
-                               BACKGROUND
+                               EXERCISE_OUTPUT, LIST_VIEW, LIST_VIEW_NEXT,
+                               MAIN_VIEW, MAIN_VIEW_NEXT, PENDING,
+                               BACKGROUND, RED, RESET_COLOR
 )
 from pylings.exercises import ExerciseManager
 from pylings.utils import PylingsUtils
@@ -32,13 +32,14 @@ class PylingsUI(App):
 
     CSS_PATH = "./styles/ui.tcss"
 
-    def __init__(self, exercise_manager: ExerciseManager):
+    def __init__(self, em: ExerciseManager):
         log.debug("PylingsUI.__init__: Entered")
         super().__init__()
-        self.exercise_manager = exercise_manager
+        self.exercise_manager = em
         self.current_exercise = self.exercise_manager.current_exercise
         self.list_focused = False
         self.sidebar_visible = False
+        self.footer_hints = ""
 
     def compose(self) -> ComposeResult:
         """Build UI layout."""
@@ -124,7 +125,8 @@ class PylingsUI(App):
             full_solution_path, short_path = self.exercise_manager.get_solution()
             git_status = PylingsUtils.get_git_status()
             lines = [
-                f"\n{EXERCISE_OUTPUT(ex_data['output'])}",
+                f"\n{EXERCISE_OUTPUT}\n",
+                f"\n{ex_data['output']}",
                 f"\n\n{EXERCISE_DONE}",
                 f"\n{self.solution_link(full_solution_path,short_path)}",
                 f"\n\n{DONE_MESSAGE}",
@@ -134,12 +136,11 @@ class PylingsUI(App):
             self.query_one("#hint", Static).update("")
             return ''.join(lines)
 
-        else:
-            error_message = f"{EXERCISE_ERROR(ex_data['error'])}"
-            if self.exercise_manager.show_hint:
-                error_message += f"\n{ex_data.get('hint', '')}\n"
+        error_message = f"{RED}{ex_data['error']}{RESET_COLOR}"
+        if self.exercise_manager.show_hint:
+            error_message += f"\n{ex_data.get('hint', '')}\n"
 
-            return error_message
+        return error_message
 
     def solution_link(self, full_path, short_path):
         """Generate a rich Text link to the provided solution file path.
@@ -191,8 +192,7 @@ class PylingsUI(App):
         log.debug("PylingsUI.update_progress_bar.progress_fraction: %s", progress_fraction)
 
         filled = int(progress_fraction * bar_length)
-        if filled > bar_length:
-            filled = bar_length
+        filled = min(filled, bar_length)
 
         progress_bar = Text("Progress: [", style="bold")
 
@@ -312,19 +312,19 @@ class PylingsUI(App):
         exercise_keys = list(self.exercise_manager.exercises.keys())
 
         if index is not None:
-            if not (0 <= index < len(exercise_keys)):
-                log.warning(f"update_list_row: supplied index {index} out of range")
+            if not 0 <= index < len(exercise_keys):
+                log.warning("update_list_row: supplied index %i out of range", index)
                 return
             name = exercise_keys[index]
-            log.debug(f"update_list_row: using supplied index {index}, name: {name}")
-            self._update_list_row_at(index, name, list_view, exercise_keys)
+            log.debug("update_list_row: using supplied index %i, name: %s", index, name)
+            self._update_list_row_at(index, name, list_view)
         else:
             log.debug("update_list_row: updating entire list")
             for idx, name in enumerate(exercise_keys):
-                self._update_list_row_at(idx, name, list_view, exercise_keys)
+                self._update_list_row_at(idx, name, list_view)
 
 
-    def _update_list_row_at(self, idx: int, name: str, list_view, exercise_keys):
+    def _update_list_row_at(self, idx: int, name: str, list_view):
         exercise_data = self.exercise_manager.exercises[name]
         new_status = DONE if exercise_data["status"] == "DONE" else PENDING
         new_display = f"{new_status} {name}"
@@ -339,7 +339,7 @@ class PylingsUI(App):
                 log.debug("Updating line %s: %s -> %s", idx, current_display, new_display)
                 static_widget.update(new_display)
         else:
-            log.warning(f"update_list_row: index {idx} out of range of list_view.children")
+            log.warning("update_list_row: index %i out of range of list_view.children", idx)
 
 
 
