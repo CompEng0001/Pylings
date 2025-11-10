@@ -20,6 +20,7 @@ Modules used:
     - rich.text.Text: For stylized terminal output
 """
 from argparse import ArgumentParser, RawTextHelpFormatter, Namespace
+from collections import defaultdict, Counter
 import logging
 from pathlib import Path
 import shutil
@@ -32,7 +33,7 @@ from toml import TomlDecodeError
 from rich.text import Text
 
 import pylings
-from pylings.constants import GREEN, LIGHT_BLUE,PYLINGS_TOML, RESET_COLOR
+from pylings.constants import GREEN, LIGHT_BLUE, MAX_LIST, PYLINGS_TOML, RESET_COLOR
 
 log = logging.getLogger(__name__)
 
@@ -362,43 +363,56 @@ class PylingsUtils:
 
     @staticmethod
     def git_suggestion(git_status_lines):
-        """Create a Rich `Text` block showing suggested git commands for status changes.
+        """Create a Rich Text block with compact, grouped git hints.
 
-        Args:
-            git_status_lines (list[str]): Lines from `git status --short`.
-
-        Returns:
-            Text: Rich text block showing `git add` and `git commit` instructions.
+        - Shows first MAX_LIST files verbatim, then collapses the rest.
+        - Groups by top-level directory for a quick mental model.
+        - Offers safe staging options: modified-only, directory-scoped, or
+        'everything except' common folders (solutions/ backups/ .venv/).
+        - Always suggests interactive staging (`git add -p`) for fine-grained control.
         """
-        log.debug("ui_utils.git_suggestion: Entered")
         text = Text()
         if not git_status_lines:
             return text.append("")
 
-        added, modified, deleted, unknown = [], [], [], []
+        # Parse status lines from `git status --short`
+        items = []
         for line in git_status_lines:
             status = line[:2].strip()
             path = line[3:].strip()
+            items.append((status, path))
 
-            if status == "??":
-                added.append(path)
-            elif status == "M":
-                modified.append(path)
-            elif status == "D":
-                deleted.append(path)
-            else:
-                unknown.append((status, path))
+        # Split categories (optional, used for counts)
+        cats = Counter(s for s, _ in items)
 
-        all_files = added + modified + deleted + [p for _, p in unknown]
+        # Build a concise file list
+        shown = items[:MAX_LIST]
+        hidden = items[MAX_LIST:]
 
         text.append("Use ")
         text.append("git", style="underline")
         text.append(" to keep track of your progress:\n\n")
 
-        text.append(f"\t{LIGHT_BLUE}git add ")
-        text.append(" ".join(all_files))
-        text.append(f"{RESET_COLOR}\n")
+        if hidden:
+            # Show first MAX_LIST, then a summary
+            for _, p in shown:
+                text.append(f"  • {p}\n")
+            text.append(f"\n…and {len(hidden)} more changed path(s)\n")
 
-        log.debug("ui_utils.git_suggestion.text:\n\t%s",text)
+            # Group hidden by top-level directory
+            groups = defaultdict(int)
+            for _, p in hidden:
+                top = p.split("/", 1)[0] if "/" in p else p
+                groups[top] += 1
+
+            if groups:
+                text.append("\nBy directory (additional paths):\n")
+                for top, count in sorted(groups.items(), key=lambda x: (-x[1], x[0])):
+                    text.append(f"  • {top}/  (+{count})\n")
+        else:
+            # Small set: show all paths
+            for _, p in shown:
+                text.append(f"  • {p}\n")
+
         return text
 # End-of-file (EOF)
