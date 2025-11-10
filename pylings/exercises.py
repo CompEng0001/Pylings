@@ -191,8 +191,10 @@ class ExerciseManager:
 
             log.debug(f"ExerciseManager.update_exercise_output.self.completed_count: ${self.completed_count}")
             if self.completed_count == len(self.exercises) and not self.completed_flag:
-                print(FINISHED)
                 self.completed_flag = True
+            else:
+                self.completed_flag = False
+
         except Exception as e:
             log.exception("update_exercise_output crashed: %s", e)
 

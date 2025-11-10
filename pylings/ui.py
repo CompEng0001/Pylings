@@ -13,7 +13,7 @@ from textual.events import Key
 from textual.widgets import  ListView, ListItem, Static
 
 from pylings.constants import (DONE,DONE_MESSAGE, EXERCISES_DIR,EXERCISE_DONE,
-                               EXERCISE_OUTPUT, LIST_VIEW, LIST_VIEW_NEXT,
+                               EXERCISE_OUTPUT, FINISHED, LIST_VIEW, LIST_VIEW_NEXT,
                                MAIN_VIEW, MAIN_VIEW_NEXT, PENDING,
                                BACKGROUND, RED, RESET_COLOR
 )
@@ -51,6 +51,7 @@ class PylingsUI(App):
                 Static("", id="progress-bar"),
                 Static("Current exercise: ", id="exercise-path"),
                 Static("", disabled=True, id="checking-all-exercises-status"),
+                Static("", id="Finished"),
                 id="main"
             ),
             Vertical(
@@ -295,6 +296,14 @@ class PylingsUI(App):
         self.update_list_row()
         self.restore_list_selection(selected_index)
         self.update_progress_bar()
+        if self.exercise_manager.completed_flag:
+            finished_output = self.query_one("#Finished", Static)
+            finished_output.update(FINISHED)
+        else:
+            finished_output = self.query_one("#Finished", Static)
+            finished_output.update("")
+
+
 
     def update_list_row(self, index: int | None = None):
         """Update the display text for a single exercise row at the given index.
@@ -322,7 +331,6 @@ class PylingsUI(App):
             log.debug("update_list_row: updating entire list")
             for idx, name in enumerate(exercise_keys):
                 self._update_list_row_at(idx, name, list_view)
-
 
     def _update_list_row_at(self, idx: int, name: str, list_view):
         exercise_data = self.exercise_manager.exercises[name]

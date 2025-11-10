@@ -65,6 +65,10 @@ MAIN_VIEW = f"{RESET} / {HINT} / {LIST} / {QUIT}"
 LIST_VIEW_NEXT = f"{NEXT} / {RESET} / {HINT} / {LIST} / {SELECT} / {CHECK} / {NAVIGATE}  / {QUIT}"
 LIST_VIEW = f"{RESET} / {HINT} / {LIST} / {SELECT} / {CHECK} / {NAVIGATE}  / {QUIT}"
 
+
+# GIT MESSAGES
+MAX_LIST = 5
+
 # END MESSAGE
 FINISHED = f"""
 {GREEN}
@@ -90,7 +94,7 @@ FINISHED = f"""
 
 \nCongratulations, you have successfully completed all pyling exercises!
 \nThank you for learning Python with Pylings
-\nIf you'd like to contribute or add more exercises, vist the repository\n:
+\nIf you'd like to contribute or add more exercises, vist the repository:\n
   - {REPOSITORY}"
 {RESET_COLOR}
 """
