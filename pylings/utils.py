@@ -198,6 +198,19 @@ class PylingsUtils:
         return False
 
     @staticmethod
+    def check_python_version():
+        """Compares earliest supported version of python 3.10.0 to sys.version_info
+           Will exit pylings if not supported.
+        """
+        required_version = (3, 10, 0)
+        current_version = sys.version_info[:3]
+        if current_version < required_version:
+            print(f"Python {required_version[0]}.{required_version[1]}.{required_version[2]}" +
+                " or higher is required to run Pylings."
+            )
+            sys.exit(1)
+
+    @staticmethod
     def get_git_status() -> Optional[list[str]]:
         """Return the list of modified/added files from `git status --short`.
 
@@ -385,10 +398,6 @@ class PylingsUtils:
         text.append(f"\t{LIGHT_BLUE}git add ")
         text.append(" ".join(all_files))
         text.append(f"{RESET_COLOR}\n")
-
-        text.append(f"\t{LIGHT_BLUE}git commit -m \"changes: ")
-        text.append(" ".join(all_files))
-        text.append(f'\"{RESET_COLOR}\n')
 
         log.debug("ui_utils.git_suggestion.text:\n\t%s",text)
         return text

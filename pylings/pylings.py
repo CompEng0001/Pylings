@@ -27,7 +27,8 @@ def main():
     workspace setup, and starts the TUI if appropriate. Also sets up
     file watchers and logging configuration.
     """
-
+    
+    PylingsUtils.check_python_version()
 
     args = PylingsUtils.parse_args()
     setup_logging(args.debug)
