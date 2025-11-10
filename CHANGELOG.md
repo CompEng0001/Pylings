@@ -1,3 +1,27 @@
+## v1.3.0
+- **Atomic file-watching** support on Windows, macOS, and Linux using `watchdog`.
+  - Watches parent directories to correctly detect “atomic save” operations.
+  - Debounce and file-settle logic prevents false triggers or partial reads.
+  - Optional `PollingObserver` fallback for network, OneDrive, and WSL paths.
+- **Python version guard** (`sys.version_info >= 3.10`) added at startup to warn users running outdated interpreters.
+
+- Reworked `*.py` for PEP-8 / pylint compliance:
+  - Replaced broad `except Exception` with specific error classes (`OSError`, `FileNotFoundError`, `TomlDecodeError`, etc.).
+  - Reduced class attribute counts to satisfy pylint R0902.
+  - Removed unused `exercise_keys` from `_update_list_row_at(self, idx: int, name: str, list_view, exercise_keys)`
+  - `constants.py` confroms 100% now as the lambda for `EXERCISE_ERROR` have been removed and instead `ui.py` used `RED` and `RESET_LINK`.
+
+- Logging initialisation now occurs *before* any module imports when `--debug` is used, ensuring early debug output from static methods.
+
+- Background `Timer` thread exceptions no longer print to `stderr` or overwrite the Textual TUI.
+- Switching between completed exercises no longer produces duplicate or stale watch events.
+- Ensured consistent behaviour of `--debug` flag (logs only active when explicitly enabled).
+
+- General refactor and docstring improvements across `watcher.py` and `theme.py`.
+- Minor path-handling clean-ups and type hints for maintainability.
+
+- finish messages now is correctly triggered with complete_flag, when `update_execise_output` and `check_all_exercises`
+
 ## v1.2.2
 - Fixed dependency drifts:
   - textual==2.1.2,
