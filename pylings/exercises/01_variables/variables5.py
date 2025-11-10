@@ -5,6 +5,7 @@ Follow the TODO instructions and fix any issues.
 Uncomment and complete each section to pass all tests.
 
 In DNA each letter is defined as a `base`, we can interchange `base` with `index`
+
 """
 
 # === DNA STRING INDEXING ===
@@ -12,8 +13,11 @@ In DNA each letter is defined as a `base`, we can interchange `base` with `index
 
 dna_sequence = "AGCTTAGGCTA"
 
-# EXAMPLE: Extract the first base of dna_sequence
-first_base = dna_sequence[0]
+# EXAMPLE: To get the seventh base of the dna_sequence
+# seventh_base = dna_sequence[8]
+
+# TODO: Extract the first base of dna_sequence
+first_base = __
 
 # TODO: Extract the last base of dna_sequence
 last_base = __  
