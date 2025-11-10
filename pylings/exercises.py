@@ -218,6 +218,11 @@ class ExerciseManager:
                 progress_callback(path.name, i, len(results))
 
         self.completed_count = sum(1 for ex in self.exercises.values() if ex["status"] == "DONE")
+        if self.completed_count == len(self.exercises) and not self.completed_flag:
+            self.completed_flag = True
+        else:
+            self.completed_flag = False
+        
         log.debug(f"ExerciseManager.check_all_exercises.self.completed_count: ${self.completed_count}")
         self.current_exercise = current_exercise_path
 
