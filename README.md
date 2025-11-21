@@ -20,6 +20,10 @@
   <a href="https://github.com/CompEng0001/pylings/actions">
     <img src="https://img.shields.io/github/actions/workflow/status/CompEng0001/pylings/.github/workflows/python-publish.yml?&style=for-the-badge&label=Deploy%20to%20Pip" alt="Build Status">
   </a>
+  <a href="https://zenodo.org/records/17570382">
+  <img src="https://img.shields.io/badge/doi-10.5281%2Fzenodo.17570382-blue?style=for-the-badge" alt="doi 10.5281/zenodo.17570382">
+  
+  </a>
 </p> 
 
 ![](./images/pylings_demo_2.gif)
