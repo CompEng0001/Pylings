@@ -1,3 +1,6 @@
+## v1.3.1
+- Example provided for `/variables/variables5.py` thanks [jayew98](https://github.com/jayew98)
+
 ## v1.3.0
 - **Atomic file-watching** support on Windows, macOS, and Linux using `watchdog`.
   - Watches parent directories to correctly detect “atomic save” operations.
